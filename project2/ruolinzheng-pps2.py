@@ -126,7 +126,7 @@ def problem1(cnetid):
 def problem2(cnetid):
   ctext_a = make_query('twoa', cnetid, '')
   ctext_prof = ctext_a[32:]
-  query_b = b'davidcausername=' + bytes(cnetid, 'utf-8') + b'&uid=8'
+  query_b = b'davidcausername=' + bytes('ruolinzheng', 'utf-8') + b'&uid=8'
   ctext_b = make_query('twob', cnetid, query_b)
   query_c = ctext_b[16:48] + ctext_prof
   return make_query('twoc', cnetid, query_c)
@@ -296,6 +296,7 @@ def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('--verbose', '-v', action='store_true')
   parser.add_argument('--cnetid', '-c', type=str)
+  parser.add_argument('--problem', '-p', type=int)
   args = parser.parse_args()
   if not args.cnetid:
     cnetid = 'ruolinzheng'
@@ -303,18 +304,24 @@ def main():
     cnetid = args.cnetid
   global VERBOSE
   VERBOSE = args.verbose
-  # print('### Problem 1')
-  # print(problem1(cnetid))
-  # print('### Problem 2')
-  # print(problem2(cnetid))
-  # print('### Problem 3')
-  # print(problem3(cnetid))
-  # print('### Problem 4')
-  # print(problem4(cnetid))
-  # print('### Problem 5')
-  # print(problem5(cnetid))
-  print('### Problem 6')
-  print(problem6(cnetid))
+  if args.problem is None or args.problem == 1:
+    print('### Problem 1')
+    print(problem1(cnetid))
+  if args.problem is None or args.problem == 2:
+    print('### Problem 2')
+    print(problem2(cnetid))
+  if args.problem is None or args.problem == 3:
+    print('### Problem 3')
+    print(problem3(cnetid))
+  if args.problem is None or args.problem == 4:
+    print('### Problem 4')
+    print(problem4(cnetid))
+  if args.problem is None or args.problem == 5:
+    print('### Problem 5')
+    print(problem5(cnetid))
+  if args.problem is None or args.problem == 6:
+    print('### Problem 6')
+    print(problem6(cnetid))
 
 if __name__ == '__main__':
   main()
