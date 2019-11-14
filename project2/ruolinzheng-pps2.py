@@ -14,6 +14,7 @@ import argparse
 
 VERBOSE = False
 PPS2SERVER = "http://cryptoclass.cs.uchicago.edu/"
+BLOCK_SIZE = 16 # not explicitly used
 
 ################################################################################
 # CS 284 Padding Utility Functions
@@ -231,10 +232,12 @@ def get_aes_dec_byte(cnetid, ctext, idx):
   dec_byte = None
   for byte in range(1, 256):
     ctext[idx] = byte
+    if idx > 0:
+      # perturb the previous byte to avoid false positive
+      ctext[idx - 1] = 0
     resp = make_query('fiveb', cnetid, ctext)
     if resp == b'true':
       dec_byte = ctext[idx] ^ 1
-      # TODO: this breaks for ffalzon
       break
   return dec_byte
 
@@ -290,7 +293,7 @@ def problem6(cnetid):
           print(i, b, byte, flag)
         break
     if flag[-1] == ord(';'): # reach end of password=FLAG;
-      return flag[:-1]
+      break
   return flag[:flag.find(b';')]
 
 def main():
