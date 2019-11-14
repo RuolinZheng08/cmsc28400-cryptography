@@ -103,13 +103,13 @@ def make_query(task, cnetid, query):
 
 def problem1(cnetid):
   flag_len = len(make_query('one', cnetid, b''))
-  bias_idx = 30
+  bias_idx = 30 # hard-coded
 
   flag_ints = []
   for i in range(flag_len):
     zeros_query = bytearray(bias_idx - i)
     flag_candidates = []
-    for _ in range(150):
+    for _ in range(150): # issue 150 queries per byte of flag
       ctext = make_query('one', cnetid, zeros_query)
       flag_candidates.append(ctext[bias_idx])
     counts = Counter(flag_candidates)
@@ -234,6 +234,7 @@ def get_aes_dec_byte(cnetid, ctext, idx):
     resp = make_query('fiveb', cnetid, ctext)
     if resp == b'true':
       dec_byte = ctext[idx] ^ 1
+      # TODO: this breaks for ffalzon
       break
   return dec_byte
 
